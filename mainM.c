@@ -80,10 +80,10 @@ void main()
       Zm=make16(M_data[5],M_data[4]);
      // char comp;
       float Heading = (atan2((signed int16)Ym,(signed int16)Xm)) * (180 / pi);
-      float declination = 6.63;
-      float grad = Heading + declination;
-      if(grad < 0)
-         grad = grad + 360;
+     // float declination = 4.63;
+      //float grad = Heading + declination;
+      if(Heading < 0)
+         Heading = Heading + 360;
       
       printf("X=%ld  ",Xm);
 
@@ -91,10 +91,17 @@ void main()
 
       printf("Z=%ld  ",Zm);
 
-      printf("grados: %f   ",grad);
-
-   
+      printf("grados: %f   ",Heading);
+      
+      if( (heading >=0 && heading<=60) || (heading>350 && heading<=360))
+         printf("Direccion Norte\r\n");
+      if(heading > 60 && heading<=160)
+         printf("Direccion Este\r\n");
+      if(heading>160 && heading<=270)
+         printf("Direccion Sur\r\n");
       //printf("\n h=%f   ",Heading);
+      if(heading>270 && heading<=350)
+         printf("Direccion Oeste\r\n");
       delay_ms(250); 
       
    }
