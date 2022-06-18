@@ -66,6 +66,7 @@ void hmc5883_init(){
 #Define SSD1306_I2C_ADDRESS 0x78    //Dirección de memoria de la OLED.
 #Include <SSD1306_OLED.c>           //Libreria para el manejo de la OLED.
 #Include <String.h>
+
 Float Coordenada_Y;
 Float Coordenada_X;
 Float Coordenada_Z;
@@ -93,6 +94,7 @@ Void Main()
    SSD1306_ClearDisplay();    //Limpiamos la OLED.
    SSD1306_Display();
    Mensaje();  //Mandamos un mensaje inicial.
+   Plano();    //Dibujamos el plano.
    
    while(TRUE)
    {
@@ -108,6 +110,9 @@ Void Main()
       Coordenada_Y = MPU6050_get_Ay();              // Acelerometro eje y
       Coordenada_Z = MPU6050_get_Az();              // Acelerometro eje z
       
+      Coordenada_X*=20;
+      Coordenada_Y*=20;
+      Coordenada_Z*=15;
       
       M_data[0]=hmc5883_read(0x00); //Read X (LSB)
       M_data[1]=hmc5883_read(0x01); //Read X (MSB)
@@ -146,7 +151,7 @@ Void Main()
       //printf("\n h=%f   ",Heading);
       if(heading>270 && heading<=350)
       {
-         printf("Direccion Oeste Titan Colosal!!\r\n");
+         printf("Direccion Oeste\r\n");
          Brujula[0]='W';
       }
       printf( "Coord x:%0.2f\r\n", Coordenada_X );   // Imprime Ax
@@ -154,7 +159,6 @@ Void Main()
       printf("Coord z:%0.2f\r\n", Coordenada_Z);   // Imprime Az
       delay_ms(100); 
       //Brujula[1] = 0;
-      Plano();    //Dibujamos el plano.
       Limites();
       Graficos(); //Hacemos los gráficos.
       delay_ms(10);
@@ -199,6 +203,11 @@ Void Graficos()
    SSD1306_DrawLine(31,31,Coordenada_X+31,31,1); //Eje X.
    SSD1306_DrawLine(95,31,95,31-Coordenada_Z,1); //Eje Z.
    SSD1306_DrawChar(72,25,Brujula[0], 2);        //Orientación.
+   SSD1306_Display();
+   Delay_ms(150);
+   SSD1306_DrawLine(31,31,31,31-Coordenada_Y,0); //Eje Y.
+   SSD1306_DrawLine(31,31,Coordenada_X+31,31,0); //Eje X.
+   SSD1306_DrawLine(95,31,95,31-Coordenada_Z,0); //Eje Z.
    SSD1306_Display();
 }
 
