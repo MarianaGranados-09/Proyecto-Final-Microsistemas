@@ -5,6 +5,7 @@ Este proyecto consistió en diseñar un simulador de vuelo, empleando el girosco
 
 
 #Final Project: Microsystems
+
 Using the pic18f4550 microcontroller with the mpu6050 gyroscope, the magnetometer sensor (GY-273), and an OLEN screen. Utilization of I2C communication.
 This project consisted on building a flight simulator, using the gyroscope to establish the orientation and angular velocity, the magnetometer sensor to implement a digital compass and the OLED screen to display the parameters mentioned before.
 
